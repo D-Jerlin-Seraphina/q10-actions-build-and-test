@@ -1,1 +1,53 @@
-# q10-actions-build-and-test
+app.py
+def add(a, b):
+    return a + b
+
+def greet(name):
+    return f"Hello, {name}!"
+
+    
+test_app.py
+from app import add, greet
+
+def test_add():
+    assert add(2, 3) == 5
+
+def test_greet():
+    assert greet("World") == "Hello, World!"
+
+    
+requirements.txt
+pytest
+
+
+.github/workflows/python-test.yml
+name: Python Build & Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest test_app.py -v
+
+
+        
+Expected Output
+✅
+GitHub Actions shows 2 passed with green checkmarks. Every push to main automatically runs the tests.
